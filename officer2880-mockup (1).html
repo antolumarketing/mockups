@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Officer2880 — Geração de Demanda Qualificada para Tecnologia B2B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#241a6b;
+    --indigo-deep:#160f4a;
+    --pink:#ee1c6e;
+    --pink-soft:#fde3ee;
+    --gold:#ffc72e;
+    --teal:#0f8c7e;
+    --bg:#f7f6fb;
+    --bg-card:#ffffff;
+    --ink:#1c1638;
+    --ink-soft:#5b5578;
+    --line:#e4e1f0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4{
+    font-family:'Manrope', sans-serif;
+    color:var(--indigo);
+    font-weight:800;
+    letter-spacing:-0.02em;
+    line-height:1.08;
+  }
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{position:relative;}
+  .label{
+    font-family:'Space Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    font-weight:700;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- LOGO (duas esferas + wordmark) ---------- */
+  .logo{ display:flex; align-items:center; gap:14px; }
+  .logo-marks{ position:relative; width:50px; height:44px; flex-shrink:0; }
+  .logo-marks .big{
+    position:absolute; top:0; left:0; width:38px; height:38px; border-radius:50%;
+    background: conic-gradient(from 200deg at 40% 35%, #7fc4ff, #6f74e6, #9a5be0, #e85fc9, #ff9d5c, #7fc4ff);
+    filter: saturate(1.05);
+  }
+  .logo-marks .small{
+    position:absolute; bottom:0; right:0; width:22px; height:22px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, #ff9ecb, #ee5fb0 55%, #a35fe0 100%);
+    box-shadow:0 0 0 4px var(--bg);
+  }
+  .logo-word{ font-family:'Manrope', sans-serif; line-height:1; }
+  .logo-word .off{ font-weight:800; font-size:27px; color:var(--indigo); display:block; }
+  .logo-word .num{ font-weight:800; font-size:15px; color:var(--pink); letter-spacing:0.03em; display:block; text-align:right; margin-top:2px; }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(247,246,251,0.94);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{
+    max-width:1180px; margin:0 auto; padding:16px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .navlinks{display:flex; gap:36px; align-items:center;}
+  .navlinks a{ font-size:14px; font-weight:600; color:var(--ink-soft); transition:color .15s ease; }
+  .navlinks a:hover{color:var(--indigo);}
+  .btn{
+    font-family:'Inter', sans-serif;
+    font-weight:600; font-size:14px;
+    padding:12px 24px;
+    display:inline-flex; align-items:center; gap:8px;
+    cursor:pointer;
+    border:2px solid transparent;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{ background:var(--indigo); color:#fff; }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(36,26,107,0.25); }
+  .btn-outline{ border-color:var(--indigo); color:var(--indigo); }
+  .btn-outline:hover{ background:var(--indigo); color:#fff; }
+  .btn-pink{ background:var(--pink); color:#fff; }
+  .btn-pink:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(238,28,110,0.3); }
+
+  /* ---------- HERO ---------- */
+  .hero{ padding:90px 0 70px; overflow:hidden; }
+  .hero .wrap{ display:grid; grid-template-columns:1.05fr 0.9fr; gap:60px; align-items:center; }
+  .hero .label{ margin-bottom:22px; display:block; opacity:0; animation: rise .7s ease forwards; }
+  .hero h1{ font-size:50px; margin-bottom:22px; opacity:0; animation: rise .7s ease forwards; animation-delay:.08s; }
+  .hero h1 .accent{ color:var(--pink); }
+  .hero p.lead{ font-size:17px; color:var(--ink-soft); max-width:480px; margin-bottom:34px; line-height:1.6; opacity:0; animation: rise .7s ease forwards; animation-delay:.16s; }
+  .hero-ctas{ display:flex; gap:14px; margin-bottom:0; flex-wrap:wrap; opacity:0; animation: rise .7s ease forwards; animation-delay:.24s; }
+
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(14px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  /* reveal ao rolar a página */
+  .reveal{ opacity:0; transform:translateY(24px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.3,1); }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce){
+    .hero .label, .hero h1, .hero p.lead, .hero-ctas{ animation:none; opacity:1; }
+    .reveal{ opacity:1; transform:none; transition:none; }
+    .stack .circle, .stack .square, .stack .block{ animation:none; }
+  }
+
+  /* assinatura visual: pilha geométrica, usada uma única vez */
+  .stack{ position:relative; height:420px; display:flex; justify-content:center; }
+  .stack-inner{ position:relative; width:220px; height:100%; }
+  .stack .circle{ position:absolute; top:0; left:50%; transform:translateX(-50%); width:96px; height:96px; border-radius:50%; background:var(--pink); animation: float-a 4s ease-in-out infinite; will-change:transform; }
+  .stack .square{ position:absolute; top:106px; left:50%; transform:translateX(-50%); width:96px; height:96px; background:var(--gold); animation: float-b 4.6s ease-in-out infinite; animation-delay:-1s; will-change:transform; }
+  .stack .block{ position:absolute; top:212px; left:0; right:0; bottom:0; background:var(--teal); overflow:hidden; animation: float-c 5.4s ease-in-out infinite; animation-delay:-2s; will-change:transform; }
+  .stack .block::after{ content:''; position:absolute; inset:0; background:var(--indigo); clip-path: polygon(100% 0, 100% 100%, 0 100%); transition: clip-path 1.4s cubic-bezier(.34,1.2,.4,1); }
+  .stack:hover .block::after{ clip-path: polygon(78% 0, 100% 100%, 0 100%); }
+
+  @keyframes float-a{
+    0%,100%{ transform:translateX(-50%) translateY(0) rotate(0deg); }
+    50%{ transform:translateX(-50%) translateY(-22px) rotate(-8deg); }
+  }
+  @keyframes float-b{
+    0%,100%{ transform:translateX(-50%) translateY(0) rotate(0deg); }
+    50%{ transform:translateX(-50%) translateY(16px) rotate(7deg); }
+  }
+  @keyframes float-c{
+    0%,100%{ transform:translateY(0) scale(1); }
+    50%{ transform:translateY(-12px) scale(1.015); }
+  }
+  .stack-inner{ transition: transform .2s ease-out; }
+
+  /* ---------- SECTORS ---------- */
+  .sectors{ padding:26px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--bg-card); }
+  .sectors .wrap{ display:flex; align-items:center; gap:40px; flex-wrap:wrap; justify-content:space-between; }
+  .sectors .tags{ display:flex; gap:28px; flex-wrap:wrap; }
+  .sectors .tags span{ font-family:'Manrope'; font-weight:700; font-size:14.5px; color:var(--ink-soft); }
+
+  /* ---------- PROBLEM ---------- */
+  .problem{ padding:100px 0 80px; }
+  .problem .wrap{ display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:start; }
+  .problem-head h2{ font-size:32px; margin-bottom:16px; }
+  .problem-head .label{ margin-bottom:16px; display:block; color:var(--pink); }
+  .problem-head p{ color:var(--ink-soft); font-size:15px; line-height:1.65; }
+
+  .problem-list{ display:flex; flex-direction:column; }
+  .problem-item{ display:flex; gap:20px; padding:22px 0; border-top:1px solid var(--line); }
+  .problem-item:last-child{ border-bottom:1px solid var(--line); }
+  .problem-item .dot{ width:8px; height:8px; border-radius:50%; margin-top:8px; flex-shrink:0; }
+  .problem-item:nth-child(1) .dot{ background:var(--indigo); }
+  .problem-item:nth-child(2) .dot{ background:var(--pink); }
+  .problem-item:nth-child(3) .dot{ background:var(--teal); }
+  .problem-item:nth-child(4) .dot{ background:var(--gold); }
+  .problem-item h4{ font-size:15.5px; margin-bottom:5px; }
+  .problem-item p{ font-size:13.5px; color:var(--ink-soft); line-height:1.55; }
+
+  .problem-callout{
+    margin-top:40px; padding-top:28px; border-top:2px solid var(--indigo);
+  }
+  .problem-callout p{ font-family:'Manrope'; font-weight:700; font-size:22px; color:var(--indigo); max-width:520px; line-height:1.3; }
+  .problem-callout p .hl{ color:var(--pink); }
+
+  /* ---------- SERVICES ---------- */
+  .services{ padding:100px 0; background:var(--bg-card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .services-head{ margin-bottom:56px; max-width:600px; }
+  .services-head .label{ margin-bottom:16px; display:block; color:var(--teal); }
+  .services-head h2{ font-size:32px; }
+
+  .service-list{ display:flex; flex-direction:column; }
+  .service-row{ display:grid; grid-template-columns:110px 1fr; gap:32px; padding:38px 0; border-top:1px solid var(--line); }
+  .service-row:last-child{ border-bottom:1px solid var(--line); }
+  .service-num{ font-family:'Manrope'; font-weight:800; font-size:40px; color:var(--line); line-height:1; }
+  .service-row h3{ font-size:21px; margin-bottom:10px; max-width:520px; }
+  .service-row p{ color:var(--ink-soft); font-size:14.5px; line-height:1.65; max-width:520px; }
+
+  /* ---------- PROCESS ---------- */
+  .process{ padding:100px 0; }
+  .process-head{ max-width:560px; margin-bottom:50px; }
+  .process-head .label{ margin-bottom:16px; display:block; color:var(--gold); }
+  .process-head h2{ font-size:32px; }
+  .process-steps{ display:grid; grid-template-columns:repeat(4,1fr); gap:32px; }
+  .p-step{ border-top:2px solid var(--indigo); padding-top:18px; }
+  .p-step .idx{ font-family:'Space Mono'; font-size:12px; color:var(--pink); font-weight:700; margin-bottom:14px; display:block; }
+  .p-step h4{ font-size:15.5px; margin-bottom:9px; }
+  .p-step p{ font-size:13px; color:var(--ink-soft); line-height:1.6; }
+
+  /* ---------- EVENTS ---------- */
+  .events{ padding:0; background:var(--indigo); color:#fff; }
+  .events .wrap{ padding:100px 32px; }
+  .events-top{ display:grid; grid-template-columns:1fr 0.9fr; gap:60px; align-items:end; margin-bottom:56px; }
+  .events .label{ margin-bottom:16px; display:block; color:var(--gold); }
+  .events h2{ color:#fff; font-size:32px; }
+  .events p.lead{ color:#c9c4e6; font-size:15px; line-height:1.7; }
+
+  .event-formats{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.14); }
+  .event-card{ background:var(--indigo); padding:28px 26px; }
+  .event-card h4{ color:#fff; font-size:16px; margin-bottom:8px; }
+  .event-card p{ color:#a9a2d1; font-size:13.5px; line-height:1.55; }
+
+  /* ---------- TESTIMONIAL ---------- */
+  .testimonial{ padding:100px 0; }
+  .testimonial .wrap{ max-width:720px; }
+  blockquote{ font-family:'Manrope'; font-weight:600; font-size:25px; color:var(--indigo); line-height:1.45; margin-bottom:22px; border-left:3px solid var(--pink); padding-left:26px; }
+  .testimonial .author strong{ font-size:14px; color:var(--ink); display:block; }
+  .testimonial .author span{ font-size:13px; color:var(--ink-soft); }
+  .testimonial .author{ padding-left:29px; }
+
+  /* ---------- CTA ---------- */
+  .cta{ background:var(--bg-card); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:90px 0; }
+  .cta .wrap{ display:flex; justify-content:space-between; align-items:center; gap:40px; flex-wrap:wrap; }
+  .cta h2{ font-size:32px; max-width:460px; }
+  .cta h2 .hl{ color:var(--pink); }
+  .cta-right{ display:flex; flex-direction:column; gap:14px; align-items:flex-start;}
+  .cta-right p{ color:var(--ink-soft); font-size:13.5px; max-width:250px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:60px 0 36px; }
+  .foot-top{ display:grid; grid-template-columns:1.4fr repeat(3, 1fr); gap:40px; padding-bottom:44px; border-bottom:1px solid var(--line); margin-bottom:26px; }
+  .foot-top .logo{ margin-bottom:16px; }
+  .foot-top p{ color:var(--ink-soft); font-size:13.5px; line-height:1.6; max-width:280px;}
+  .foot-col h5{ font-family:'Space Mono'; font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:16px; font-weight:700;}
+  .foot-col a{ display:block; font-size:14px; color:var(--ink); margin-bottom:12px; font-weight:500;}
+  .foot-col a:hover{ color:var(--pink); }
+  .foot-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  .foot-bottom span{ font-size:12.5px; color:var(--ink-soft); }
+
+  @media (max-width: 900px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .stack{ height:260px; margin-top:10px;}
+    .stack-inner{ width:150px; }
+    .stack .circle,.stack .square{ width:66px; height:66px; }
+    .stack .square{ top:72px; }
+    .stack .block{ top:142px; }
+    .hero h1{ font-size:36px; }
+    .problem .wrap{ grid-template-columns:1fr; gap:36px;}
+    .service-row{ grid-template-columns:1fr; gap:10px; }
+    .process-steps{ grid-template-columns:1fr 1fr; row-gap:32px; }
+    .events-top{ grid-template-columns:1fr; gap:24px; }
+    .event-formats{ grid-template-columns:1fr; }
+    .foot-top{ grid-template-columns:1fr 1fr; }
+    .navlinks{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <div class="logo-marks"><div class="big"></div><div class="small"></div></div>
+      <div class="logo-word"><span class="off">Officer</span><span class="num">2880</span></div>
+    </div>
+    <div class="navlinks">
+      <a href="#servicos">Serviços</a>
+      <a href="#metodo">Como funciona</a>
+      <a href="#eventos">Eventos</a>
+      <a href="#contato">Contato</a>
+    </div>
+    <a href="#contato" class="btn btn-primary">Falar com especialista</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="label">+15 anos em tecnologia B2B</span>
+      <h1>Leads você até tem.<br>Reuniões qualificadas, <span class="accent">nem sempre.</span></h1>
+      <p class="lead">Somos a agência que transforma investimento em marketing em pipeline de verdade — combinando geração de demanda qualificada com eventos corporativos que colocam seu time comercial na mesa certa.</p>
+      <div class="hero-ctas">
+        <a href="#contato" class="btn btn-pink">Agendar diagnóstico</a>
+        <a href="#metodo" class="btn btn-outline">Como trabalhamos</a>
+      </div>
+    </div>
+    <div class="stack">
+      <div class="stack-inner">
+        <div class="circle"></div>
+        <div class="square"></div>
+        <div class="block"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTORS -->
+<section class="sectors">
+  <div class="wrap">
+    <span class="label">Setores que atendemos</span>
+    <div class="tags">
+      <span>SaaS B2B</span>
+      <span>ERP & Enterprise</span>
+      <span>Cybersecurity</span>
+      <span>Fintech</span>
+      <span>Infraestrutura & Cloud</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="wrap">
+    <div class="problem-head reveal">
+      <span class="label">O problema que resolvemos</span>
+      <h2>Volume de lead enche funil. Não enche agenda do comercial.</h2>
+      <p>É o padrão que vemos há mais de uma década em empresas de SaaS, ERP e infraestrutura: o marketing entrega números, mas o time de vendas não sente diferença no pipeline.</p>
+      <div class="problem-callout">
+        <p>No final, o problema não é gerar leads. É gerar <span class="hl">as conversas certas.</span></p>
+      </div>
+    </div>
+
+    <div class="problem-list reveal">
+      <div class="problem-item">
+        <div class="dot"></div>
+        <div><h4>Muitos leads, pouca qualidade</h4><p>Volume sem fit de ICP, sem contexto e sem intenção real de compra.</p></div>
+      </div>
+      <div class="problem-item">
+        <div class="dot"></div>
+        <div><h4>Ciclos longos e imprevisíveis</h4><p>Falta de previsibilidade para o comercial crescer com consistência.</p></div>
+      </div>
+      <div class="problem-item">
+        <div class="dot"></div>
+        <div><h4>Time de SDR sobrecarregado</h4><p>Horas gastas com leads que nunca deveriam ter entrado no funil.</p></div>
+      </div>
+      <div class="problem-item">
+        <div class="dot"></div>
+        <div><h4>Pipeline fraco, metas longe</h4><p>Faltam oportunidades reais e previsíveis para sustentar o crescimento.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicos">
+  <div class="wrap">
+    <div class="services-head reveal">
+      <span class="label">O que fazemos</span>
+      <h2>Três frentes, um único objetivo: pipeline qualificado e previsível.</h2>
+    </div>
+
+    <div class="service-list">
+      <div class="service-row reveal">
+        <div class="service-num">01</div>
+        <div>
+          <h3>Geração de Demanda Qualificada</h3>
+          <p>Estratégia de ABM, conteúdo e mídia paga desenhada em cima do seu ICP real — não do volume que enche relatório. Cada campanha nasce com critério de qualificação já definido.</p>
+        </div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-num">02</div>
+        <div>
+          <h3>Eventos Corporativos que Geram Pipeline</h3>
+          <p>Jantares executivos, roundtables e experiências pensadas para colocar decisor e vendedor na mesma mesa — com pauta comercial desde o convite, não só relacionamento de marca.</p>
+        </div>
+      </div>
+      <div class="service-row reveal">
+        <div class="service-num">03</div>
+        <div>
+          <h3>Pipeline Previsível & Operação Comercial</h3>
+          <p>Estruturação de SDR, cadências e nutrição para que cada lead qualificado vire reunião — e cada reunião vire oportunidade rastreável no seu CRM.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="metodo">
+  <div class="wrap">
+    <div class="process-head reveal">
+      <span class="label">Como trabalhamos</span>
+      <h2>Um método construído em 15 anos de mercado tech.</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="p-step"><span class="idx">01</span><h4>Diagnóstico & ICP</h4><p>Mapeamos funil atual, ciclo de vendas e o real perfil de cliente ideal.</p></div>
+      <div class="p-step"><span class="idx">02</span><h4>Estratégia de demanda</h4><p>Definimos os canais e o mix entre demanda digital e eventos presenciais.</p></div>
+      <div class="p-step"><span class="idx">03</span><h4>Execução integrada</h4><p>Conteúdo, mídia, ABM e eventos rodando em conjunto, com um só funil.</p></div>
+      <div class="p-step"><span class="idx">04</span><h4>Pipeline & otimização</h4><p>Acompanhamento de reunião a oportunidade, com ajustes mês a mês.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section class="events" id="eventos">
+  <div class="wrap">
+    <div class="events-top reveal">
+      <div>
+        <span class="label">Nossa especialidade</span>
+        <h2>Eventos corporativos não são branding para nós. São geração de pipeline.</h2>
+      </div>
+      <p class="lead">Enquanto a maioria das agências trata evento como ação de relacionamento, nós desenhamos cada jantar, roundtable e summit com meta comercial, lista de contas e follow-up estruturado desde o convite.</p>
+    </div>
+    <div class="event-formats reveal">
+      <div class="event-card"><h4>Jantares executivos</h4><p>Grupos fechados de 8 a 12 decisores, pauta guiada e follow-up em até 48h.</p></div>
+      <div class="event-card"><h4>Roundtables temáticos</h4><p>Discussões setoriais que posicionam sua empresa como referência técnica.</p></div>
+      <div class="event-card"><h4>Summits fechados</h4><p>Eventos de marca própria para acelerar contas estratégicas do funil.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="testimonial">
+  <div class="wrap">
+    <blockquote class="reveal">A Officer2880 foi a primeira agência que nos entregou reunião com o decisor certo, não só um relatório de leads. Isso mudou a conversa com o nosso comercial.</blockquote>
+    <div class="author">
+      <strong>Diretora de Marketing</strong>
+      <span>Empresa de tecnologia B2B, cliente Officer2880</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contato">
+  <div class="wrap">
+    <h2>Pronto para transformar leads em <span class="hl">pipeline real?</span></h2>
+    <div class="cta-right">
+      <a href="#" class="btn btn-primary">Agendar diagnóstico gratuito</a>
+      <p>Uma conversa de 30 minutos para mapear onde seu funil está perdendo pipeline.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="logo">
+          <div class="logo-marks"><div class="big"></div><div class="small"></div></div>
+          <div class="logo-word"><span class="off">Officer</span><span class="num">2880</span></div>
+        </div>
+        <p>Agência especializada em geração de demanda qualificada e eventos corporativos para empresas de tecnologia B2B. Mais de 15 anos transformando leads em pipeline.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Serviços</h5>
+        <a href="#servicos">Geração de demanda</a>
+        <a href="#eventos">Eventos corporativos</a>
+        <a href="#servicos">Pipeline & SDR</a>
+      </div>
+      <div class="foot-col">
+        <h5>Agência</h5>
+        <a href="#metodo">Metodologia</a>
+        <a href="#">Cases</a>
+        <a href="#contato">Contato</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contato</h5>
+        <a href="#">contato@officer2880.com.br</a>
+        <a href="#">+55 11 0000-0000</a>
+        <a href="#">São Paulo, SP</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Officer2880. Especialistas em Lead Generation para SaaS e empresas B2B de tecnologia.</span>
+      <span>Feito para gerar as conversas certas.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal ao rolar
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach(el => io.observe(el));
+
+  // Parallax sutil da pilha geométrica seguindo o mouse
+  const stack = document.querySelector('.stack');
+  const stackInner = document.querySelector('.stack-inner');
+  if(stack && stackInner && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    stack.addEventListener('mousemove', (e) => {
+      const rect = stack.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      stackInner.style.transform = `rotate(${x * 6}deg) translate(${x * 10}px, ${y * 10}px)`;
+    });
+    stack.addEventListener('mouseleave', () => {
+      stackInner.style.transform = 'rotate(0deg) translate(0,0)';
+    });
+  }
+</script>
+</body>
+</html>
